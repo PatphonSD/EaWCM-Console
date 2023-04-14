@@ -1,0 +1,24 @@
+{
+  "name": "eawcm-console-desktop",
+  "version": "2.0.0",
+  "description": "Electricity and Water Consumption Meter via IoT Console Application for Desktop",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PatphonSD/EaWCM-Console.git"
+  },
+  "keywords": [
+    "Business",
+    "IoT",
+    "Application"
+  ],
+  "author": "PatphonSD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PatphonSD/EaWCM-Console/issues"
+  },
+  "homepage": "https://github.com/PatphonSD/EaWCM-Console#readme"
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="config.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>EaWCM Console</title>
+	<style>
+		/* custom styles */
+		body {
+			background-color: #f8f9fa;
+		}
+
+		.form-container {
+			margin-top: 50px;
+		}
+
+		.table-container {
+			margin-top: 50px;
+		}
+
+		@media (min-width: 768px) {
+			.form-container {
+				float: left;
+				width: 50%;
+			}
+
+			.table-container {
+				float: right;
+				width: 50%;
+			}
+		}
+
+		@media (max-width: 767px) {
+			.form-container {
+				margin-bottom: 50px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-4">
+				<div class="modal-body text-center fs-4 my-4">
+					คุณแน่ใจจะออกจากระบบหรือไม่?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary rounded-pill"
+						data-bs-dismiss="modal">ยกเลิก</button>
+					<button type="button" id="logout" class="btn btn-primary rounded-pill">ยืนยัน</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="content" style="height: calc(100vh - 56px);">
+		<iframe width="100%" height="100%" name="content" src="page/calculator.html" frameborder="0"></iframe>
+	</div>
+	<div class="navbar-wrapper">
+		<nav style="box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;"
+			class="rounded-pill center-navbar border-top navbar fixed-bottom navbar-light bg-light">
+			<ul class="d-flex navbar-nav mx-auto justify-content-around">
+				<li class="nav-item">
+					<a class="nav-link rounded-pill" target="content" href="page/room.html" data-bs-placement="top"
+						title="ห้องทั้งหมด"><i class="bi fs-2 bi-speedometer"></i></a>
+				</li>
+				<li class="nav-item">
+					<a class="rounded-pill nav-link" href="page/calculator.html" data-bs-toggle="tooltip"
+						data-bs-placement="top" title="คำนวณบิล"><i class="bi fs-2 bi-cash"></i></a>
+				</li>
+				<li class="nav-item">
+					<a class="rounded-pill nav-link" href="/page/setting.html" data-bs-placement="top"
+						title="การตั้งค่า"><i class="bi fs-2 bi-gear-fill"></i></a>
+				</li>
+				<li class="nav-item">
+					<a class="rounded-pill nav-link" data-bs-target="#exampleModal" data-bs-toggle="modal"
+						data-bs-placement="top" title="ออกจากระบบ"><i class="bi fs-2 bi-box-arrow-right"></i></a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const navItems = document.querySelectorAll('.nav-item');
+
+			navItems.forEach((navItem) => {
+				navItem.addEventListener('click', function (event) {
+					event.preventDefault();
+
+					// ลบคลาส red-icon จากทุก ๆ สัญลักษณ์ก่อน
+					navItems.forEach((item) => {
+						const otherBiIcon = item.querySelector('.bi');
+						otherBiIcon.classList.remove('red-icon');
+					});
+
+					// เพิ่มคลาส red-icon ให้กับสัญลักษณ์ที่ถูกคลิก
+					const biIcon = this.querySelector('.bi');
+					biIcon.classList.add('red-icon');
+				});
+			});
+		});
+	</script>
+	<script>
+		$('a.nav-link').click(function (event) {
+			event.preventDefault(); // ป้องกันการเปิดหน้าเว็บไซต์ในหน้าต่างใหม่
+			var url = $(this).attr('href'); // ดึงค่า href จาก a tag
+			$('iframe[name="content"]').attr('src', url); // กำหนด src ของ iframe
+		});
+	</script>
+
+	<script>
+		const logoutBtn = document.getElementById('logout');
+
+		logoutBtn.addEventListener('click', () => {
+			localStorage.clear(); // ลบข้อมูลทั้งหมดใน localStorage
+			setTimeout(() => {
+				location.reload(); // รีเฟรชหน้าเว็บไซต์
+			}, 10);
+		});
+	</script>
+</body>
+
+</html>

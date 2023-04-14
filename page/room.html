@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="/config.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        $(document).ready(function () {
+            loadRooms();
+
+            // handle form submit to add room
+            $('form').submit(function (event) {
+                event.preventDefault();
+                var roomName = $('#roomNameInput').val();
+                $.ajax({
+                    url: 'http://${ipAddress}:${port}/generatemeter',
+                    method: 'POST',
+                    data: { table_name: roomName },
+                    success: function (response) {
+                        //console(response.message);
+                        $('#roomNameInput').val('');
+                        loadRooms();
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseJSON.error);
+                    }
+                });
+            });
+
+            // handle delete button click to delete room
+            $('#roomList').on('click', '.delete-btn', function () {
+                var roomName = $(this).data('room');
+                $('#deletemodal').modal('show');
+                $('#deletemodal .deletebtn').click(function () {
+                    $.ajax({
+                        url: 'http://${ipAddress}:${port}/deletemeter',
+                        method: 'DELETE',
+                        data: { table_name: roomName },
+                        success: function (response) {
+                            loadRooms();
+                        },
+                        error: function (xhr) {
+                            alert(xhr.responseJSON.error);
+                        }
+                    });
+                    $('#deletemodal').modal('hide'); // hide delete modal after delete
+                });
+            });
+        });
+
+        // function to load room list
+        function loadRooms() {
+            $.ajax({
+                url: 'http://127.0.0.1:5000/listallmeter',
+                method: 'GET',
+                success: function (response) {
+                    var rooms = response.tables;
+                    var roomList = $('#roomList');
+                    roomList.empty();
+                    for (var i = 0; i < rooms.length; i++) {
+                        var room = rooms[i];
+                        var deleteBtn = '<button class="shadow-sm btn btn-danger rounded-pill delete-btn w-50" data-room="' + room + '">Delete</button>';
+                        var row = '<tr><td class="fs-5">' + room + '</td><td>' + deleteBtn + '</td></tr>';
+                        roomList.append(row);
+                    }
+                }
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+    <!-- Modal -->
+    <div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+        <div style="justify-items: center;" class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 class="fw-bold modal-title">คุณแน่ใจหรือไม่?</h5>
+                    <p class="modal-title my-3">หลังจากลบแล้วจะไม่สามารถกู้คืนได้</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="ms-2 rounded-pill deletebtn btn btn-danger">ยืนยัน</button>
+                    <button type="button" class="rounded-pill me-2 btn btn-outline-secondary"
+                        data-bs-dismiss="modal">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#deletemodal .deletebtn').click(function () {
+                $('#deletemodal').modal('hide');
+            });
+        });
+    </script>
+
+    <div class="mt-5 mt-sm-2 container">
+        <div class="p-0 row">
+            <div class="col-md-4 mb-4">
+                <form>
+                    <h3 class="mb-2 mt-3 h1">เพิ่มห้อง</h3>
+                    <div class="form-group">
+                        <input type="text" class="shadow-sm w-100 rounded-5 mb-3 form-control form-control-lg"
+                            id="roomNameInput" placeholder="ชื่อห้อง" required>
+                    </div>
+                    <button class="shadow-sm w-100 btn btn-primary rounded-pill" type="submit">เพิ่ม</button>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <h2>ห้องของคุณ</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Room Name</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" id="roomList"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    @media only screen and (min-width: 768px) {
+        .container {
+            margin: 0;
+            top: 50%;
+            position: relative;
+            -ms-transform: translateY(50%);
+            transform: translateY(50%);
+        }
+
+        .mytable {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+    }
+
+    .container {
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .d-flex.align-items-center.justify-content-center {
+            margin: 0;
+            position: relative;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+        .mytable {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+    }
+
+    .container {
+        margin-top: 20px;
+    }
+</style>
+
+</html>
