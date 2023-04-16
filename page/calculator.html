@@ -1,7 +1,55 @@
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../config.js"></script>
 </head>
+<!-- Modal Bootstrap -->
+<div class="modal fade" id="billModal" tabindex="-1" aria-labelledby="billModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="billModalLabel">รายละเอียดบิล</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 id="table-name" class="mb-4"></h4>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <p class="mb-1">หน่วยน้ำที่ใช้ (ลบ.)</p>
+                        <p class="mb-1">หน่วยไฟฟ้าที่ใช้ (กิโลวัตต์-ชั่วโมง)</p>
+                        <p class="mb-1">ค่าน้ำ (บาท)</p>
+                        <p class="mb-1">ค่าไฟ (บาท)</p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p class="mb-1" id="total-water"></p>
+                        <p class="mb-1" id="total-electricity"></p>
+                        <p class="mb-1" id="water-cost"></p>
+                        <p class="mb-1" id="electricity-cost"></p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="mb-1">รวมเป็นเงิน (บาท)</p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p class="mb-1 fw-bold" id="total-cost"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="shadow-sm btn rounded-pill fs-6 btn-outline-primary" data-bs-dismiss="modal">ออก</button>
+                <button type="button" class="shadow-sm btn rounded-pill fs-6 btn-primary" id="billdownload">ดาวน์โหลด</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class=".d-flex.align-items-center.justify-content-center center-content mt-5 mt-sm-2">
     <div class="container">
         <div class="p-0 row">
@@ -51,6 +99,7 @@
 
                 <ul class="list-group mb-5 mb-sm-0">
                     <p class="fs-4 error-msg">
+                        <i style="display: none;" class="bi bi-bug"></i>
                         <span style="display: none;" class="loader"></span>
                         <span class="waitforyoumsg text-secondary fs-6">บิลทั้งหมดจะปรากฎที่นี่</span>
                     </p>
@@ -59,6 +108,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    if (typeof jsPDF === 'undefined') {
+      console.error('jsPDF not loaded!');
+    } else {
+      console.log('jsPDF loaded successfully!');
+    }
+  </script>
+  
 <script>
     // handle form submission
     $('form').submit(function (event) {
@@ -67,18 +125,25 @@
         $('.waitforyoumsg').hide();
         $.ajax({
             type: 'POST',
-            url: 'http://${ipAddress}:${port}/calculator',
+            url: `${url}/calculator`,
             data: $(this).serialize(),
             success: function (data) {
-                console.log('renderList successful.');
-                renderList(data);
+                $('.loader').show();
+                setTimeout(() => {
+                    $('.loader').hide();
+                    renderList(data);
+                    console.log('renderList successful.');
+                }, 2000);
             },
             error: function () {
                 console.log('An error occurred. Please try again later.');
                 renderList({});
+                $('.bi-bug').show();
             },
             complete: function () {
-                $('.loader').hide(); // hide loading overlay
+                setTimeout(() => {
+                    $('.loader').hide(); // hide loading overlay
+                }, 2000);
             }
         });
     });
@@ -101,7 +166,13 @@
                 var water_cost = $('<li>').addClass('list-group-item').text('ค่าน้ำ: ' + data[tableName]['water_cost'].toFixed(2) + ' บาท');
                 var kWh_total = $('<li>').addClass('list-group-item').text('ค่าไฟ: ' + data[tableName]['kWh_total'].toFixed(2) + ' บาท');
                 var total_cost = $('<li>').addClass('list-group-item').text('รวมเป็นเงิน: ' + data[tableName]['total_cost'].toFixed(2) + ' บาท');
-                var bill_btn = $('<button>').addClass('btn btn-outline-success w-100 rounded-pill mb-0').text('สร้างบิล').attr('id', 'createbill_btn');
+                var bill_btn = $('<button>').addClass('btn btn-outline-success w-100 rounded-pill mb-0').text('สร้างบิล').attr('id', 'createbill_btn').attr('data-table-name', tableName);
+
+                // add event listener to bill button
+                bill_btn.click(function () {
+                    const tableName = $(this).data('table-name');
+                    genbill(data[tableName], tableName);
+                });
 
                 // add list items to list
                 list.append(L_total).append(electricity_cost).append(water_cost).append(kWh_total).append(total_cost);
@@ -114,4 +185,39 @@
             }
         }
     }
+
+    function genbill(data, tableName) {
+        // ตั้งค่าข้อมูลใน Modal
+        $('#table-name').text('ชื่อห้อง: ' + tableName);
+        $('#total-water').text(data['L_total'].toFixed(2) + ' ลิตร');
+        $('#total-electricity').text(data['electricity_cost'].toFixed(2) + ' หน่วย');
+        $('#water-cost').text(data['water_cost'].toFixed(2) + ' บาท');
+        $('#electricity-cost').text(data['kWh_total'].toFixed(2) + ' บาท');
+        $('#total-cost').text(data['total_cost'].toFixed(2) + ' บาท');
+
+        // เปิด Modal
+        $('#billModal').modal('show');
+    }
+
+    $('#billdownload').on('click', function () {
+        // สร้างไฟล์ PDF
+        var doc = new jsPDF();
+        doc.setFontSize(18);
+        doc.text(14, 20, $('#table-name').text());
+        var data = [
+            ['หน่วยน้ำที่ใช้ (ลบ.)', $('#total-water').text()],
+            ['หน่วยไฟฟ้าที่ใช้ (กิโลวัตต์-ชั่วโมง)', $('#total-electricity').text()],
+            ['ค่าน้ำ (บาท)', $('#water-cost').text()],
+            ['ค่าไฟ (บาท)', $('#electricity-cost').text()],
+            ['รวมเป็นเงิน (บาท)', $('#total-cost').text()]
+        ];
+        doc.autoTable({
+            startY: 30,
+            head: [['รายละเอียด', 'จำนวน']],
+            body: data
+        });
+        doc.save('bill.pdf');
+    });
+
+
 </script>

@@ -71,15 +71,15 @@
 }
 
 @media (min-width: 767px) {
-p.error-msg {
-  display: flex;
-  font-size: 20px;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 30vh);
-  border: 2px dashed #bebebe;
-  border-radius: 15px;
-}
+  p.error-msg {
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 30vh);
+    border: 2px dashed #bebebe;
+    border-radius: 15px;
+  }
 }
 .loader {
   display: flex;
@@ -623,7 +623,8 @@ h5 {
       0px 0 rgba(255, 255, 255, 0);
   }
   50% {
-    box-shadow: 130px 0 #404040, 120px 0 #404040, 110px 0 #404040, 100px 0 #404040;
+    box-shadow: 130px 0 #404040, 120px 0 #404040, 110px 0 #404040,
+      100px 0 #404040;
   }
   62% {
     box-shadow: 200px 0 rgba(255, 255, 255, 0), 130px 0 #404040, 120px 0 #404040,
@@ -641,4 +642,30 @@ h5 {
     box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
       200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0);
   }
+}
+
+.modal-body {
+  font-size: 14px;
+}
+
+.modal-body h4 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.modal-body .row:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.modal-body p {
+  margin-bottom: 0.2rem;
+}
+
+.modal-body p.mb-1 {
+  font-size: 0.9rem;
+}
+
+.modal-body p.fw-bold {
+  font-weight: bold;
+  font-size: 1.2rem;
 }

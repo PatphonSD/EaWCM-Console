@@ -103,15 +103,14 @@
       <h1 class="h3 mb-3 fw-bold">ลงชื่อเข้าใช้งาน</h1>
 
       <div class="form-floating">
-        <input type="text" class="rounded-pill form-control" id="email" placeholder="Email">
+        <input type="text" class="rounded-pill form-control" id="email" placeholder="Email" autocomplete="email">
         <label for="email">Email</label>
       </div>
       <div class="form-floating mt-2">
-        <input type="password" class="rounded-pill form-control" id="password" placeholder="Password">
+        <input type="password" class="rounded-pill form-control" id="password" placeholder="Password" autocomplete="current-password">
         <label for="password">Password</label>
       </div>
       <button class="w-100 btn btn-primary rounded-pill" type="submit">Sign in</button>
-      <div class="mt-3">หรือ<a href="#" class="w-100 mt-2 fs-6 text-decoration-none">สร้างบัญชี</a></div>
       <span style="display: none;" class="loader mb-2"></span>
       <p class="mt-3 text-danger errmsg" style="display: none;">อีเมลหรือรหัสผ่านผิดพลาด</p>
       <p class="mt-3 text-danger serverrmsg" style="display: none;">ขออภัย เกิดข้อผิดพลาดของระบบ</p>
