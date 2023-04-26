@@ -7,44 +7,218 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="/config.js"></script>
+  <script src="../extension/qrcode.min.js"></script>
+  <script src="../extension/promptpay.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
-<body class="pb-sm-3 pb-5">
-  <div class="mb-5" style="display: grid; justify-items: center; height: 100vh;">
-    <div style="width: 98%; max-width: 40em;" class="content">
-      <div class="mt-5 mb-5" style="display: flex; justify-content: center; align-items: center;">
-        <img class="logo" style="max-width: 50%; order: 1;" src="../icon/icon.png">
-        <div class="appdata" style="order: 2;">
-          <h5 class="mb-0">Surin Instrument</h5>
-          <h2 class="mb-0">EaWCM Console</h2>
-          <p class="mb-0">Version 1.0.2 (Beta)</p>
+<body>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">ทดสอบ PromptPay ของคุณ</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-      </div>
-      <div class="shadow alert alert-light">
-        <h2 class="fs-2 fw-bold">QR Promptpay</h2>
-         <p>คุณสามารถกำหนด QR Code พร้อมเพย์เพื่อแนบกับใบแจ้งหนี้ได้ อย่างไรก็ตาม
-          คุณจะต้องตรวจสอบสถานะการชำระเงินด้วยตัวคุณเอง เช่น ตรวจสอบผ่านแอพพลิเคชันทางธุรกรรม
-          ขอให้ลูกค้าแสดงใบสำคัญการโอนเงิน ฯลฯ</p>
-        <h6 class="mt-3" style="text-align: center;">ค่าที่ตั้งไว้</h6>
-        <h2 class="mb-3" style="text-align: center;" class="currentqr">0836082281</h2>
-        <div class="d-flex justify-content-center mt-2">
-          <input type="number" class="shadow-sm w-50 form-control" placeholder="หมายเลขพร้อมเพย์ใหม่">
-          <button type="submit" class="shadow-sm w-25 btn btn-primary ms-2">บันทึก</button>
-        </div>
-      </div>
-      <div class="shadow alert alert-light">
-        <h2 class="fs-2 fw-bold">ส่งบิลอัตโนมัติ</h2>
-        <p>คุณสามารถตั้งค่าวันส่งบิลโดยอัตโนมัติ ซึ่งระบบจะส่งให้คุณตามวันที่คุณกำหนดในแต่ละเดือน</p>
-        <h6 class="mt-3" style="text-align: center;">วันที่ตั้งไว้</h6>
-        <h2 class="mb-3" style="text-align: center;" class="currentqr">15</h2>
-        <div class="d-flex justify-content-center mt-2">
-          <input type="number" class="shadow-sm w-50 form-control" placeholder="วันที่ของคุณ">
-          <button type="submit" class="shadow-sm w-25 btn btn-primary ms-2">บันทึก</button>
+        <div class="modal-body">
+          <div id="qr-code-container" class="d-none">
+            <img id="qr-code-img" src="">
+          </div>
         </div>
       </div>
     </div>
   </div>
-</body>
+  <div class="container mt-5 ps-4 pe-4 mb-5">
+    <h1 class="text-center mb-5">การตั้งค่า</h1>
+    <div class="row">
+      <div class="col-md-12 bg-white p-3 p-sm-4 rounded-4 shadow">
+        <h2 class="mb-3">กำหนดค่าน้ำ-ค่าไฟต่อหน่วยเริ่มต้น</h2>
+        <form>
+          <div class="mb-3">
+            <label for="waterRate" class="form-label">ค่าน้ำต่อหน่วย:</label>
+            <input type="text" class="form-control" id="waterRate" name="waterRate" placeholder="กรอกค่าน้ำต่อหน่วย">
+          </div>
+          <div class="mb-3">
+            <label for="electricityRate" class="form-label">ค่าไฟต่อหน่วย:</label>
+            <input type="text" class="form-control" id="electricityRate" name="electricityRate"
+              placeholder="กรอกค่าไฟต่อหน่วย">
+          </div>
+        </form>
+      </div>
 
+      <div class="mt-5 col-md-12 bg-white p-3 p-sm-4 rounded-4 shadow">
+        <h2 class="mb-3">ส่งบิลอัตโนมัติ</h2>
+        <p class="text-muted">เมื่อเราเปิดใช้ระบบนี้ ระบบจะสร้างบิลและส่งให้ห้องพักทุกห้องที่มีในระบบ
+          โดยเราสามารถเลือกวันที่สร้างบิลการชำระเงินได้</p>
+        <div class="mb-3 d-flex align-items-center">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="invoiceSystemToggle" onchange="toggleInvoiceSystem()">
+          </div>
+          <select class="form-select" id="dueDate" name="dueDate" disabled>
+            <option id="dueDatevalue" selected></label>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-12 mt-5 bg-white p-3 p-sm-4 rounded-4 shadow">
+        <h2 class="mb-3">PromptPay QR Code</h2>
+        <div class="mb-3 d-flex flex-row">
+          <input type="text" class="form-control" id="promptpay-id" placeholder="PromptPay ID">
+          <button data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <div class="text-center">
+              <div id="qr-code-spinner" class="d-none">
+                <div class="spinner-grow spinner-grow-sm" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </div><i id="bi-qr-code-scan" class="bi bi-qr-code-scan"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-md-12 mt-5 text-center d-flex justify-content-end ">
+        <button onclick="SaveConfig()" type="submit" id="savebtn"
+          class="btn btn-outline-primary ps-4 pe-4 rounded-pill"><span
+            class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"
+            id="saveloader"></span><i class="bi bi-check2-circle me-2 d-none " id="bi-check2-circle"></i>บันทึก</button>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  function toggleInvoiceSystem() {
+    const invoiceSystemToggle = document.getElementById("invoiceSystemToggle");
+    const dueDateInput = document.getElementById("dueDate");
+
+    if (invoiceSystemToggle.checked) {
+      dueDateInput.disabled = false;
+    } else {
+      dueDateInput.disabled = true;
+    }
+  }
+</script>
+<script>
+  const dueDateSelect = document.getElementById("dueDate");
+
+  for (let i = 1; i <= 31; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.text = i;
+    dueDateSelect.add(option);
+  }
+</script>
+<script>
+  const input = document.getElementById('promptpay-id');
+  const spinner = document.getElementById('qr-code-spinner');
+  const biqr = document.getElementById('bi-qr-code-scan');
+  const container = document.getElementById('qr-code-container');
+  const img = document.getElementById('qr-code-img');
+  input.addEventListener('input', () => {
+    GenQR();
+  });
+  function GenQR() {
+    const promptpayId = input.value;
+    const imgUrl = `https://promptpay.io/${promptpayId}.png`;
+    img.onload = () => {
+      container.classList.remove('d-none');
+      spinner.classList.add('d-none');
+      biqr.classList.remove('d-none');
+    };
+    img.src = imgUrl;
+    spinner.classList.remove('d-none')
+    container.classList.add('d-none');
+    biqr.classList.add('d-none');
+  }
+</script>
+
+<script>
+  const waterRateElement = document.getElementById('waterRate');
+  const electricityRateElement = document.getElementById('electricityRate');
+  const dueDateValueElement = document.getElementById('dueDatevalue');
+  const promptpayIdElement = document.getElementById('promptpay-id');
+  const invoiceSystemToggleElement = document.getElementById('invoiceSystemToggle');
+
+  async function fetchData() {
+    try {
+      const response = await fetch(`${url}/config`);
+      const data = await response.json();
+
+      waterRateElement.value = data[0].water_rate;
+      electricityRateElement.value = data[0].electricity_rate;
+      dueDateValueElement.textContent = data[0].bill_send_date;
+      promptpayIdElement.value = data[0].payment_id;
+      const invoiceSystemValue = data[0].auto_send_bill;
+      if (invoiceSystemValue === 1) {
+        invoiceSystemToggleElement.checked = true;
+      } else {
+        invoiceSystemToggleElement.checked = false;
+      }
+      console.log(invoiceSystemValue);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  fetchData();
+  setTimeout(() => { GenQR(); toggleInvoiceSystem(); }, 200);
+</script>
+<script>
+  const saveloader = document.getElementById('saveloader');
+  const savesuccess = document.getElementById('bi-check2-circle');
+  const savebtn = document.getElementById("savebtn");
+  function SaveConfig() {
+    var e = document.getElementById("dueDate");
+    var dueDaten = e.value;
+    var dueDatenn = e.options[e.selectedIndex].text;
+    // ดึงค่าจาก input ต่างๆ
+    const waterRate = document.getElementById("waterRate").value;
+    const electricityRate = document.getElementById("electricityRate").value;
+    const autoSendBill = document.getElementById("invoiceSystemToggle").checked;
+    const billSendDate = document.getElementById("dueDate").innerText;
+    const paymentId = document.getElementById("promptpay-id").value;
+    saveloader.classList.remove('d-none');
+    savebtn.classList.add('disabled');
+    // สร้าง JSON object สำหรับส่งไปยัง API
+    const data = {
+      water_rate: waterRate,
+      electricity_rate: electricityRate,
+      auto_send_bill: autoSendBill,
+      bill_send_date: dueDatenn,
+      payment_id: paymentId,
+    };
+
+    // ทำการเรียกใช้ API ด้วย fetch
+    fetch(`${url}/updateconfig`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Network response was not ok.");
+        }
+      })
+      .then((data) => {
+        console.log(dueDatenn);
+        setTimeout(() => {
+          saveloader.classList.add('d-none');
+          savesuccess.classList.remove('d-none');
+          savebtn.classList.remove('disabled');
+          fetchData();
+        }, 2000);
+        setTimeout(() => {
+          savesuccess.classList.add('animate__animated');
+          savesuccess.classList.add('animate__slideOutRight');
+          savesuccess.classList.add('d-none');
+        }, 3500);
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  }
+
+</script>
 
 </html>

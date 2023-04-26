@@ -4,23 +4,12 @@
   <script src="../config.js"></script>
 </head>
 <!-- Modal Bootstrap -->
-<div
-  class="modal fade"
-  id="billModal"
-  tabindex="-1"
-  aria-labelledby="billModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="billModal" tabindex="-1" aria-labelledby="billModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="billModalLabel">รายละเอียดบิล</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -54,31 +43,22 @@
       </div>
 
       <div class="modal-footer">
-        <div class="btn-group">
-          <button
-            type="button"
-            class="shadow-sm btn rounded-start-pill fs-6 btn-outline-primary shadow-sm border-end"
-            id="billdownload"
-          >
-            ส่งบิลเข้าเว็บ
-          </button>
-          <button
-            type="button"
-            class="shadow-sm btn rounded-end-pill fs-6 btn-outline-primary shadow-sm"
-            id="billdownload"
-          >
-            ดาวน์โหลดไฟล์
-          </button>
-        </div>
+
+        <button type="button" class="shadow-sm btn rounded-pill btn-outline-primary"
+          id="billdownload">
+          ส่งบิลเข้าเว็บ
+        </button>
+        <button type="button" class="shadow-sm btn rounded-pill btn-outline-primary" id="billdownload">
+          ดาวน์โหลดไฟล์
+        </button>
+
         <!--<button type="button" class="shadow-sm btn rounded-pill fs-6 btn-outline-primary shadow-sm" data-bs-dismiss="modal">ออก</button>-->
       </div>
     </div>
   </div>
 </div>
 
-<div
-  class=".d-flex.align-items-center.justify-content-center center-content mt-5 mt-sm-2"
->
+<div class=".d-flex.align-items-center.justify-content-center center-content mt-5 mt-sm-2 mb-5">
   <div class="container">
     <div class="p-0 row">
       <div class="col-md-6 form-container">
@@ -86,68 +66,32 @@
           <h3 class="mb-2 mt-3 h1">ค้นหาบิล</h3>
           <div class="form-group">
             <label for="start_date" class="h4 mt-2">วันที่:</label>
-            <input
-              type="date"
-              class="shadow-sm rounded-pill form-control-lg form-control"
-              id="start_date"
-              name="start_date"
-              required
-            />
+            <input type="date" class="shadow-sm rounded-pill form-control-lg form-control" id="start_date"
+              name="start_date" required />
           </div>
           <div class="form-group mt-2">
             <label for="end_date" class="h4 mt-2">ถึงวันที่:</label>
-            <input
-              type="date"
-              class="shadow-sm rounded-pill form-control-lg form-control"
-              id="end_date"
-              name="end_date"
-            />
+            <input type="date" class="shadow-sm rounded-pill form-control-lg form-control" id="end_date"
+              name="end_date" />
           </div>
           <h3 class="mb-2 mt-4 h1">กำหนดราคา</h3>
           <div class="form-group mt-3">
             <div class="input-group input-group-lg w-100">
-              <input
-                type="number"
-                step="0.01"
-                class="shadow-sm rounded-start-5 form-control"
-                id="electricity_price"
-                name="electricity_price"
-                placeholder="ค่าไฟฟ้าต่อหน่วย"
-                required
-              />
-              <span
-                class="shadow-sm rounded-end-5 input-group-text"
-                id="inputGroup-sizing-lg"
-                >บาท</span
-              >
+              <input type="number" step="0.01" class="shadow-sm rounded-start-5 form-control" id="electricity_price"
+                name="electricity_price" placeholder="ค่าไฟฟ้าต่อหน่วย" required />
+              <span class="shadow-sm rounded-end-5 input-group-text" id="inputGroup-sizing-lg">บาท</span>
             </div>
           </div>
           <div class="form-group mt-2 mt-sm-2">
             <div class="input-group input-group-lg w-100">
-              <input
-                type="number"
-                step="0.01"
-                class="shadow-sm rounded-start-5 form-control"
-                id="water_price"
-                name="water_price"
-                placeholder="ค่าน้ำต่อหน่วย"
-                required
-              />
+              <input type="number" step="0.01" class="shadow-sm rounded-start-5 form-control" id="water_price"
+                name="water_price" placeholder="ค่าน้ำต่อหน่วย" required />
               <span class="shadow-sm input-group-text rounded-end-5">บาท</span>
             </div>
           </div>
           <div class="col-6 form-group"></div>
-          <!--<div class="mt-3 w-100 btn-group" role="group" aria-label="Basic radio toggle">
-                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                        <label class="w-50 rounded-start-pill btn btn-outline-primary" for="btnradio1">พิมพ์บิล</label>
-                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                        <label class="w-50 rounded-end-pill btn btn-outline-primary" for="btnradio2">ส่งเข้าเว็บ</label>
-                    </div>-->
           <div class="d-flex justify-content-center">
-            <button
-              type="submit"
-              class="shadow-sm btn rounded-pill fs-5 btn-primary mt-3 w-100"
-            >
+            <button type="submit" class="shadow-sm btn rounded-pill btn-primary mt-3 w-100">
               คำนวณ
             </button>
           </div>
@@ -158,24 +102,13 @@
           <p class="fs-4 error-msg">
             <i style="display: none" class="bi bi-bug"></i>
             <span style="display: none" class="loader"></span>
-            <span class="waitforyoumsg text-secondary fs-6"
-              >บิลทั้งหมดจะปรากฎที่นี่</span
-            >
+            <span class="waitforyoumsg text-secondary fs-6">บิลทั้งหมดจะปรากฎที่นี่</span>
           </p>
         </ul>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-  if (typeof jsPDF === "undefined") {
-    console.error("jsPDF not loaded!");
-  } else {
-    console.log("jsPDF loaded successfully!");
-  }
-</script>
-
 <script>
   // handle form submission
   $("form").submit(function (event) {
@@ -228,15 +161,15 @@
           .addClass("list-group-item")
           .text(
             "ใช้น้ำไปทั้งหมด: " +
-              data[tableName]["L_total"].toFixed(2) +
-              " ลิตร"
+            data[tableName]["L_total"].toFixed(2) +
+            " ลิตร"
           );
         var electricity_cost = $("<li>")
           .addClass("list-group-item")
           .text(
             "ใช้ไฟไปทั้งหมด: " +
-              data[tableName]["electricity_cost"].toFixed(2) +
-              " หน่วย"
+            data[tableName]["electricity_cost"].toFixed(2) +
+            " หน่วย"
           );
         var water_cost = $("<li>")
           .addClass("list-group-item")
@@ -312,4 +245,24 @@
     });
     doc.save("bill.pdf");
   });
+</script>
+
+<script>
+  const waterRateElement = document.getElementById('water_price');
+  const electricityRateElement = document.getElementById('electricity_price');
+
+  async function fetchData() {
+    try {
+      const response = await fetch(`${url}/config`);
+      const data = await response.json();
+
+      waterRateElement.value = data[0].water_rate;
+      electricityRateElement.value = data[0].electricity_rate;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  fetchData();
+  setTimeout(() => { GenQR(); toggleInvoiceSystem(); }, 200);
 </script>

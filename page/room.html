@@ -43,7 +43,7 @@
                             loadRooms();
                         },
                         error: function (xhr) {
-                            alert(xhr.responseJSON.error);
+                            console.log(xhr.responseJSON.error);
                         }
                     });
                     $('#deletemodal').modal('hide'); // hide delete modal after delete
@@ -62,7 +62,7 @@
                     roomList.empty();
                     for (var i = 0; i < rooms.length; i++) {
                         var room = rooms[i];
-                        var deleteBtn = '<button class="shadow-sm btn btn-danger rounded-pill delete-btn w-50" data-room="' + room + '">Delete</button>';
+                        var deleteBtn = '<button class="shadow-sm btn-sm btn btn-danger rounded-pill delete-btn" data-room="' + room + '">Delete</button>';
                         var row = '<tr><td class="fs-5">' + room + '</td><td>' + deleteBtn + '</td></tr>';
                         roomList.append(row);
                     }
