@@ -6,7 +6,6 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>EaWCM Console</title>
-	<link rel="shortcut icon" href="./icon/AppList.targetsize-36.png" type="image/x-icon">
 	<style>
 		/* custom styles */
 		body {
@@ -42,57 +41,45 @@
 </head>
 
 <body>
-	<div id="overlay" class="overlay">
-		<div class="testing">
-			<span style="display: block;" class="loader mb-2"></span>
-			<h4 class="mt-3">กำลังเตรียมความพร้อม....</h4>
-		</div>
-		<div style="display: none;" class="err">
-			<h4>โปรดตรวจสอบการเชื่อมต่อ</h4>
-		</div>
-	</div>
-	<div style="display: none ;" class="maincc">
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content rounded-4">
-					<div class="modal-body text-center fs-4 my-4">
-						คุณแน่ใจจะออกจากระบบหรือไม่?
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-outline-secondary rounded-pill"
-							data-bs-dismiss="modal">ยกเลิก</button>
-						<button type="button" id="logout" class="btn btn-primary rounded-pill">ยืนยัน</button>
-					</div>
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-4">
+				<div class="modal-body text-center fs-4 my-4">
+					คุณแน่ใจจะออกจากระบบหรือไม่?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary rounded-pill"
+						data-bs-dismiss="modal">ยกเลิก</button>
+					<button type="button" id="logout" class="btn btn-primary rounded-pill">ยืนยัน</button>
 				</div>
 			</div>
 		</div>
-		<div class="animate__animated animate__backInUp content" style="height: calc(100vh - 56px);">
-			<iframe id="my-iframe" width="100%" height="100%" name="content" src="page/calculator.html"
-				frameborder="0"></iframe>
-		</div>
-		<div class="navbar-wrapper">
-			<nav style="box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;"
-				class="animate__animated animate__slideInUp center-navbar border-top navbar fixed-bottom navbar-light bg-light">
-				<ul class="d-flex navbar-nav mx-auto justify-content-around">
-					<li class="animate__animated animate__fadeInUp nav-item">
-						<a class="nav-link" target="content" href="page/room.html" data-bs-placement="top"
-							title="ห้องทั้งหมด"><i class="bi fs-2 bi-speedometer"></i></a>
-					</li>
-					<li class="animate__animated animate__fadeInUp nav-item ">
-						<a class="nav-link" href="page/calculator.html" data-bs-toggle="tooltip"
-							data-bs-placement="top" title="คำนวณบิล"><i class="bi fs-2 bi-cash"></i></a>
-					</li>
-					<li class="animate__animated animate__fadeInUp nav-item">
-						<a class="nav-link" href="/page/setting.html" data-bs-placement="top"
-							title="การตั้งค่า"><i class="bi fs-2 bi-gear-fill"></i></a>
-					</li>
-					<li class="animate__animated animate__fadeInUp nav-item">
-						<a class="nav-link" data-bs-target="#exampleModal" data-bs-toggle="modal"
-							data-bs-placement="top" title="ออกจากระบบ"><i class="bi fs-2 bi-box-arrow-right"></i></a>
-					</li>
-				</ul>
-			</nav>
-		</div>
+	</div>
+	<div class="content" style="height: calc(100vh - 56px);">
+		<iframe width="100%" height="100%" name="content" src="page/calculator.html" frameborder="0"></iframe>
+	</div>
+	<div class="navbar-wrapper">
+		<nav style="box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;"
+			class="rounded-pill center-navbar border-top navbar fixed-bottom navbar-light bg-light">
+			<ul class="d-flex navbar-nav mx-auto justify-content-around">
+				<li class="nav-item">
+					<a class="nav-link rounded-pill" target="content" href="page/room.html" data-bs-placement="top"
+						title="ห้องทั้งหมด"><i class="bi fs-2 bi-speedometer"></i></a>
+				</li>
+				<li class="nav-item">
+					<a class="rounded-pill nav-link" href="page/calculator.html" data-bs-toggle="tooltip"
+						data-bs-placement="top" title="คำนวณบิล"><i class="bi fs-2 bi-cash"></i></a>
+				</li>
+				<li class="nav-item">
+					<a class="rounded-pill nav-link" href="/page/setting.html" data-bs-placement="top"
+						title="การตั้งค่า"><i class="bi fs-2 bi-gear-fill"></i></a>
+				</li>
+				<li class="nav-item">
+					<a class="rounded-pill nav-link" data-bs-target="#exampleModal" data-bs-toggle="modal"
+						data-bs-placement="top" title="ออกจากระบบ"><i class="bi fs-2 bi-box-arrow-right"></i></a>
+				</li>
+			</ul>
+		</nav>
 	</div>
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
@@ -122,68 +109,17 @@
 			$('iframe[name="content"]').attr('src', url); // กำหนด src ของ iframe
 		});
 	</script>
+
 	<script>
 		const logoutBtn = document.getElementById('logout');
 
 		logoutBtn.addEventListener('click', () => {
-			// เพิ่ม class ให้กับ div
-			const divs = document.querySelectorAll('div');
-			divs.forEach((div) => {
-				div.classList.add('animate__animated', 'animate__flipOutX');
-			});
-			// หน่วงเวลาไว้ 1 วินาทีก่อนที่จะทำงานฟังก์ชั่นถัดไป
+			localStorage.clear(); // ลบข้อมูลทั้งหมดใน localStorage
 			setTimeout(() => {
-				localStorage.clear(); // ลบข้อมูลทั้งหมดใน localStorage
 				location.reload(); // รีเฟรชหน้าเว็บไซต์
-			}, 1000);
+			}, 10);
 		});
 	</script>
-
-	<script>
-		fetch(url)
-			.then(response => {
-				if (response.status === 200) {
-					// รอ 2 วินาทีแล้วเพิ่ม class animate__animated และ animate__zoomOut ไปยัง id overlay
-					setTimeout(() => {
-						const overlay = document.getElementById('overlay');
-						overlay.classList.add('animate__animated', 'animate__zoomOut');
-						// รอ 0.1 วินาทีแล้วกำหนด style ของ id overlay เป็น none
-						setTimeout(() => {
-							overlay.style.display = 'none';
-							// รอ 0 วินาทีแล้วกำหนด style display ของ class maincc เป็น unset
-							setTimeout(() => {
-								const maincc = document.querySelector('.maincc');
-								maincc.style.display = 'unset';
-							}, 0);
-						}, 100);
-					}, 2000);
-				} else {
-					// กำหนด style ของ class testing เป็น none และกำหนด style ของ class err เป็น unset
-					const testing = document.querySelector('.testing');
-					testing.style.display = 'none';
-					const err = document.querySelector('.err');
-					err.style.display = 'unset';
-				}
-			})
-			.catch(error => {
-				console.error(error);
-			});
-	</script>
 </body>
-<style>
-	iframe {
-		animation: fadeIn 0.5s ease-out;
-	}
-
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-
-		to {
-			opacity: 1;
-		}
-	}
-</style>
 
 </html>

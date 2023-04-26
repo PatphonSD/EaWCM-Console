@@ -1,315 +1,223 @@
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="../config.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../config.js"></script>
 </head>
 <!-- Modal Bootstrap -->
-<div
-  class="modal fade"
-  id="billModal"
-  tabindex="-1"
-  aria-labelledby="billModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="billModalLabel">รายละเอียดบิล</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-12">
-            <h4 id="table-name" class="mb-4"></h4>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-6">
-            <p class="mb-1">หน่วยน้ำที่ใช้ (ลบ.)</p>
-            <p class="mb-1">หน่วยไฟฟ้าที่ใช้ (กิโลวัตต์-ชั่วโมง)</p>
-            <p class="mb-1">ค่าน้ำ (บาท)</p>
-            <p class="mb-1">ค่าไฟ (บาท)</p>
-          </div>
-          <div class="col-6 text-end">
-            <p class="mb-1" id="total-water"></p>
-            <p class="mb-1" id="total-electricity"></p>
-            <p class="mb-1" id="water-cost"></p>
-            <p class="mb-1" id="electricity-cost"></p>
-          </div>
-        </div>
-        <hr />
-        <div class="row">
-          <div class="col-6">
-            <p class="mb-1">รวมเป็นเงิน (บาท)</p>
-          </div>
-          <div class="col-6 text-end">
-            <p class="mb-1 fw-bold" id="total-cost"></p>
-          </div>
-        </div>
-      </div>
+<div class="modal fade" id="billModal" tabindex="-1" aria-labelledby="billModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="billModalLabel">รายละเอียดบิล</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 id="table-name" class="mb-4"></h4>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <p class="mb-1">หน่วยน้ำที่ใช้ (ลบ.)</p>
+                        <p class="mb-1">หน่วยไฟฟ้าที่ใช้ (กิโลวัตต์-ชั่วโมง)</p>
+                        <p class="mb-1">ค่าน้ำ (บาท)</p>
+                        <p class="mb-1">ค่าไฟ (บาท)</p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p class="mb-1" id="total-water"></p>
+                        <p class="mb-1" id="total-electricity"></p>
+                        <p class="mb-1" id="water-cost"></p>
+                        <p class="mb-1" id="electricity-cost"></p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="mb-1">รวมเป็นเงิน (บาท)</p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p class="mb-1 fw-bold" id="total-cost"></p>
+                    </div>
+                </div>
+            </div>
 
-      <div class="modal-footer">
-        <div class="btn-group">
-          <button
-            type="button"
-            class="shadow-sm btn rounded-start-pill fs-6 btn-outline-primary shadow-sm border-end"
-            id="billdownload"
-          >
-            ส่งบิลเข้าเว็บ
-          </button>
-          <button
-            type="button"
-            class="shadow-sm btn rounded-end-pill fs-6 btn-outline-primary shadow-sm"
-            id="billdownload"
-          >
-            ดาวน์โหลดไฟล์
-          </button>
+            <div class="modal-footer">
+                <button type="button" class="shadow-sm btn rounded-pill fs-6 btn-outline-primary" data-bs-dismiss="modal">ออก</button>
+                <button type="button" class="shadow-sm btn rounded-pill fs-6 btn-primary" id="billdownload">ดาวน์โหลด</button>
+            </div>
         </div>
-        <!--<button type="button" class="shadow-sm btn rounded-pill fs-6 btn-outline-primary shadow-sm" data-bs-dismiss="modal">ออก</button>-->
-      </div>
     </div>
-  </div>
 </div>
 
-<div
-  class=".d-flex.align-items-center.justify-content-center center-content mt-5 mt-sm-2"
->
-  <div class="container">
-    <div class="p-0 row">
-      <div class="col-md-6 form-container">
-        <form method="POST" action="/calculator">
-          <h3 class="mb-2 mt-3 h1">ค้นหาบิล</h3>
-          <div class="form-group">
-            <label for="start_date" class="h4 mt-2">วันที่:</label>
-            <input
-              type="date"
-              class="shadow-sm rounded-pill form-control-lg form-control"
-              id="start_date"
-              name="start_date"
-              required
-            />
-          </div>
-          <div class="form-group mt-2">
-            <label for="end_date" class="h4 mt-2">ถึงวันที่:</label>
-            <input
-              type="date"
-              class="shadow-sm rounded-pill form-control-lg form-control"
-              id="end_date"
-              name="end_date"
-            />
-          </div>
-          <h3 class="mb-2 mt-4 h1">กำหนดราคา</h3>
-          <div class="form-group mt-3">
-            <div class="input-group input-group-lg w-100">
-              <input
-                type="number"
-                step="0.01"
-                class="shadow-sm rounded-start-5 form-control"
-                id="electricity_price"
-                name="electricity_price"
-                placeholder="ค่าไฟฟ้าต่อหน่วย"
-                required
-              />
-              <span
-                class="shadow-sm rounded-end-5 input-group-text"
-                id="inputGroup-sizing-lg"
-                >บาท</span
-              >
-            </div>
-          </div>
-          <div class="form-group mt-2 mt-sm-2">
-            <div class="input-group input-group-lg w-100">
-              <input
-                type="number"
-                step="0.01"
-                class="shadow-sm rounded-start-5 form-control"
-                id="water_price"
-                name="water_price"
-                placeholder="ค่าน้ำต่อหน่วย"
-                required
-              />
-              <span class="shadow-sm input-group-text rounded-end-5">บาท</span>
-            </div>
-          </div>
-          <div class="col-6 form-group"></div>
-          <!--<div class="mt-3 w-100 btn-group" role="group" aria-label="Basic radio toggle">
+<div class=".d-flex.align-items-center.justify-content-center center-content mt-5 mt-sm-2">
+    <div class="container">
+        <div class="p-0 row">
+            <div class="col-md-6 form-container">
+                <form method="POST" action="/calculator">
+                    <h3 class="mb-2 mt-3 h1">ค้นหาบิล</h3>
+                    <div class="form-group">
+                        <label for="start_date" class="h4 mt-2">วันที่:</label>
+                        <input type="date" class="shadow-sm rounded-pill form-control-lg form-control" id="start_date"
+                            name="start_date" required>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="end_date" class="h4 mt-2">ถึงวันที่:</label>
+                        <input type="date" class="shadow-sm rounded-pill form-control-lg form-control" id="end_date"
+                            name="end_date">
+                    </div>
+                    <h3 class="mb-2 mt-4 h1">กำหนดราคา</h3>
+                    <div class="form-group mt-3">
+                        <div class="input-group input-group-lg w-100">
+                            <input type="number" step="0.01" class="shadow-sm rounded-start-5 form-control"
+                                id="electricity_price" name="electricity_price" placeholder="ค่าไฟฟ้าต่อหน่วย" required>
+                            <span class="shadow-sm rounded-end-5 input-group-text" id="inputGroup-sizing-lg">บาท</span>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2 mt-sm-2">
+                        <div class="input-group input-group-lg w-100">
+                            <input type="number" step="0.01" class="shadow-sm rounded-start-5 form-control"
+                                id="water_price" name="water_price" placeholder="ค่าน้ำต่อหน่วย" required>
+                            <span class="shadow-sm input-group-text rounded-end-5">บาท</span>
+                        </div>
+                    </div>
+                    <div class="col-6 form-group">
+                    </div>
+                    <!--<div class="mt-3 w-100 btn-group" role="group" aria-label="Basic radio toggle">
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
                         <label class="w-50 rounded-start-pill btn btn-outline-primary" for="btnradio1">พิมพ์บิล</label>
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
                         <label class="w-50 rounded-end-pill btn btn-outline-primary" for="btnradio2">ส่งเข้าเว็บ</label>
                     </div>-->
-          <div class="d-flex justify-content-center">
-            <button
-              type="submit"
-              class="shadow-sm btn rounded-pill fs-5 btn-primary mt-3 w-100"
-            >
-              คำนวณ
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="mytable col-md-6 pt-0 table-container">
-        <ul class="list-group mb-5 mb-sm-0">
-          <p class="fs-4 error-msg">
-            <i style="display: none" class="bi bi-bug"></i>
-            <span style="display: none" class="loader"></span>
-            <span class="waitforyoumsg text-secondary fs-6"
-              >บิลทั้งหมดจะปรากฎที่นี่</span
-            >
-          </p>
-        </ul>
-      </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit"
+                            class="shadow-sm btn rounded-pill fs-5 btn-primary mt-3 w-100">คำนวณ</button>
+                    </div>
+                </form>
+            </div>
+            <div class="mytable col-md-6 pt-0 table-container">
+
+                <ul class="list-group mb-5 mb-sm-0">
+                    <p class="fs-4 error-msg">
+                        <i style="display: none;" class="bi bi-bug"></i>
+                        <span style="display: none;" class="loader"></span>
+                        <span class="waitforyoumsg text-secondary fs-6">บิลทั้งหมดจะปรากฎที่นี่</span>
+                    </p>
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <script>
-  if (typeof jsPDF === "undefined") {
-    console.error("jsPDF not loaded!");
-  } else {
-    console.log("jsPDF loaded successfully!");
-  }
-</script>
-
-<script>
-  // handle form submission
-  $("form").submit(function (event) {
-    event.preventDefault(); // prevent form from submitting
-    $(".loader").show();
-    $(".waitforyoumsg").hide();
-    $.ajax({
-      type: "POST",
-      url: `${url}/calculator`,
-      data: $(this).serialize(),
-      success: function (data) {
-        $(".loader").show();
-        setTimeout(() => {
-          $(".loader").hide();
-          renderList(data);
-          console.log("renderList successful.");
-        }, 2000);
-      },
-      error: function () {
-        console.log("An error occurred. Please try again later.");
-        renderList({});
-        $(".bi-bug").show();
-      },
-      complete: function () {
-        setTimeout(() => {
-          $(".loader").hide(); // hide loading overlay
-        }, 2000);
-      },
-    });
-  });
-
-  // render the table based on the response data
-  function renderList(data) {
-    var listContainer = $(".list-group");
-    listContainer.empty();
-    if ($.isEmptyObject(data)) {
-      listContainer.append(
-        $("<p>").addClass("text-danger bi bi-bug error-msg fs-1")
-      );
+    if (typeof jsPDF === 'undefined') {
+      console.error('jsPDF not loaded!');
     } else {
-      for (var tableName in data) {
-        var listItem = $("<li>").addClass("list-group-item border-0 p-0  mb-3");
-        var title = $("<h5>").addClass("w-100").text(tableName);
-        var list = $("<ul>").addClass(
-          "list-group list-group-flush rounded-bottom-pill"
-        );
-
-        // create list item for each data point
-        var L_total = $("<li>")
-          .addClass("list-group-item")
-          .text(
-            "ใช้น้ำไปทั้งหมด: " +
-              data[tableName]["L_total"].toFixed(2) +
-              " ลิตร"
-          );
-        var electricity_cost = $("<li>")
-          .addClass("list-group-item")
-          .text(
-            "ใช้ไฟไปทั้งหมด: " +
-              data[tableName]["electricity_cost"].toFixed(2) +
-              " หน่วย"
-          );
-        var water_cost = $("<li>")
-          .addClass("list-group-item")
-          .text("ค่าน้ำ: " + data[tableName]["water_cost"].toFixed(2) + " บาท");
-        var kWh_total = $("<li>")
-          .addClass("list-group-item")
-          .text("ค่าไฟ: " + data[tableName]["kWh_total"].toFixed(2) + " บาท");
-        var total_cost = $("<li>")
-          .addClass("list-group-item")
-          .text(
-            "รวมเป็นเงิน: " + data[tableName]["total_cost"].toFixed(2) + " บาท"
-          );
-        var bill_btn = $("<button>")
-          .addClass("btn btn-outline-success w-100 rounded-pill mb-0")
-          .text("สร้างบิล")
-          .attr("id", "createbill_btn")
-          .attr("data-table-name", tableName);
-
-        // add event listener to bill button
-        bill_btn.click(function () {
-          const tableName = $(this).data("table-name");
-          genbill(data[tableName], tableName);
-        });
-
-        // add list items to list
-        list
-          .append(L_total)
-          .append(electricity_cost)
-          .append(water_cost)
-          .append(kWh_total)
-          .append(total_cost);
-
-        // add list and button to list item
-        listItem.append(title).append(list).append(bill_btn);
-
-        // add list item to list container
-        listContainer.append(listItem);
-      }
+      console.log('jsPDF loaded successfully!');
     }
-  }
-
-  function genbill(data, tableName) {
-    // ตั้งค่าข้อมูลใน Modal
-    $("#table-name").text("ชื่อห้อง: " + tableName);
-    $("#total-water").text(data["L_total"].toFixed(2) + " ลิตร");
-    $("#total-electricity").text(
-      data["electricity_cost"].toFixed(2) + " หน่วย"
-    );
-    $("#water-cost").text(data["water_cost"].toFixed(2) + " บาท");
-    $("#electricity-cost").text(data["kWh_total"].toFixed(2) + " บาท");
-    $("#total-cost").text(data["total_cost"].toFixed(2) + " บาท");
-
-    // เปิด Modal
-    $("#billModal").modal("show");
-  }
-
-  $("#billdownload").on("click", function () {
-    // สร้างไฟล์ PDF
-    var doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text(14, 20, $("#table-name").text());
-    var data = [
-      ["หน่วยน้ำที่ใช้ (ลบ.)", $("#total-water").text()],
-      ["หน่วยไฟฟ้าที่ใช้ (กิโลวัตต์-ชั่วโมง)", $("#total-electricity").text()],
-      ["ค่าน้ำ (บาท)", $("#water-cost").text()],
-      ["ค่าไฟ (บาท)", $("#electricity-cost").text()],
-      ["รวมเป็นเงิน (บาท)", $("#total-cost").text()],
-    ];
-    doc.autoTable({
-      startY: 30,
-      head: [["รายละเอียด", "จำนวน"]],
-      body: data,
+  </script>
+  
+<script>
+    // handle form submission
+    $('form').submit(function (event) {
+        event.preventDefault(); // prevent form from submitting
+        $('.loader').show();
+        $('.waitforyoumsg').hide();
+        $.ajax({
+            type: 'POST',
+            url: `${url}/calculator`,
+            data: $(this).serialize(),
+            success: function (data) {
+                $('.loader').show();
+                setTimeout(() => {
+                    $('.loader').hide();
+                    renderList(data);
+                    console.log('renderList successful.');
+                }, 2000);
+            },
+            error: function () {
+                console.log('An error occurred. Please try again later.');
+                renderList({});
+                $('.bi-bug').show();
+            },
+            complete: function () {
+                setTimeout(() => {
+                    $('.loader').hide(); // hide loading overlay
+                }, 2000);
+            }
+        });
     });
-    doc.save("bill.pdf");
-  });
+
+    // render the table based on the response data
+    function renderList(data) {
+        var listContainer = $('.list-group');
+        listContainer.empty();
+        if ($.isEmptyObject(data)) {
+            listContainer.append($('<p>').addClass('text-danger bi bi-bug error-msg fs-1'));
+        } else {
+            for (var tableName in data) {
+                var listItem = $('<li>').addClass('list-group-item border-0 p-0  mb-3');
+                var title = $('<h5>').addClass('w-100').text(tableName);
+                var list = $('<ul>').addClass('list-group list-group-flush rounded-bottom-pill');
+
+                // create list item for each data point
+                var L_total = $('<li>').addClass('list-group-item').text('ใช้น้ำไปทั้งหมด: ' + data[tableName]['L_total'].toFixed(2) + ' ลิตร');
+                var electricity_cost = $('<li>').addClass('list-group-item').text('ใช้ไฟไปทั้งหมด: ' + data[tableName]['electricity_cost'].toFixed(2) + ' หน่วย');
+                var water_cost = $('<li>').addClass('list-group-item').text('ค่าน้ำ: ' + data[tableName]['water_cost'].toFixed(2) + ' บาท');
+                var kWh_total = $('<li>').addClass('list-group-item').text('ค่าไฟ: ' + data[tableName]['kWh_total'].toFixed(2) + ' บาท');
+                var total_cost = $('<li>').addClass('list-group-item').text('รวมเป็นเงิน: ' + data[tableName]['total_cost'].toFixed(2) + ' บาท');
+                var bill_btn = $('<button>').addClass('btn btn-outline-success w-100 rounded-pill mb-0').text('สร้างบิล').attr('id', 'createbill_btn').attr('data-table-name', tableName);
+
+                // add event listener to bill button
+                bill_btn.click(function () {
+                    const tableName = $(this).data('table-name');
+                    genbill(data[tableName], tableName);
+                });
+
+                // add list items to list
+                list.append(L_total).append(electricity_cost).append(water_cost).append(kWh_total).append(total_cost);
+
+                // add list and button to list item
+                listItem.append(title).append(list).append(bill_btn);
+
+                // add list item to list container
+                listContainer.append(listItem);
+            }
+        }
+    }
+
+    function genbill(data, tableName) {
+        // ตั้งค่าข้อมูลใน Modal
+        $('#table-name').text('ชื่อห้อง: ' + tableName);
+        $('#total-water').text(data['L_total'].toFixed(2) + ' ลิตร');
+        $('#total-electricity').text(data['electricity_cost'].toFixed(2) + ' หน่วย');
+        $('#water-cost').text(data['water_cost'].toFixed(2) + ' บาท');
+        $('#electricity-cost').text(data['kWh_total'].toFixed(2) + ' บาท');
+        $('#total-cost').text(data['total_cost'].toFixed(2) + ' บาท');
+
+        // เปิด Modal
+        $('#billModal').modal('show');
+    }
+
+    $('#billdownload').on('click', function () {
+        // สร้างไฟล์ PDF
+        var doc = new jsPDF();
+        doc.setFontSize(18);
+        doc.text(14, 20, $('#table-name').text());
+        var data = [
+            ['หน่วยน้ำที่ใช้ (ลบ.)', $('#total-water').text()],
+            ['หน่วยไฟฟ้าที่ใช้ (กิโลวัตต์-ชั่วโมง)', $('#total-electricity').text()],
+            ['ค่าน้ำ (บาท)', $('#water-cost').text()],
+            ['ค่าไฟ (บาท)', $('#electricity-cost').text()],
+            ['รวมเป็นเงิน (บาท)', $('#total-cost').text()]
+        ];
+        doc.autoTable({
+            startY: 30,
+            head: [['รายละเอียด', 'จำนวน']],
+            body: data
+        });
+        doc.save('bill.pdf');
+    });
+
+
 </script>

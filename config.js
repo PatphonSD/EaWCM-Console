@@ -1,6 +1,6 @@
 const origin = "EaWCMCS/v2"; // กำหนด origin ที่ต้องการ
 const config = {
-  css: ["../extension/bootstrap.min.css", "../extension/custom.css", "../extension/font/bootstrap-icons.css","../extension/animate.css"],
+  css: ["../extension/bootstrap.min.css", "../extension/custom.css", "../extension/font/bootstrap-icons.css"],
   js: ["../extension/jquery.min.js", "../extension/bootstrap.bundle.min.js","../extension/html2canvas.min.js"]
 };
 const cssList = config.css.map((url) => `<link rel="stylesheet" href="${url}">`).join("");
