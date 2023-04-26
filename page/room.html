@@ -16,7 +16,7 @@
                 event.preventDefault();
                 var roomName = $('#roomNameInput').val();
                 $.ajax({
-                    url: 'http://${ipAddress}:${port}/generatemeter',
+                    url: `${url}/generatemeter`,
                     method: 'POST',
                     data: { table_name: roomName },
                     success: function (response) {
@@ -36,7 +36,7 @@
                 $('#deletemodal').modal('show');
                 $('#deletemodal .deletebtn').click(function () {
                     $.ajax({
-                        url: 'http://${ipAddress}:${port}/deletemeter',
+                        url: `${url}/deletemeter`,
                         method: 'DELETE',
                         data: { table_name: roomName },
                         success: function (response) {
@@ -54,7 +54,7 @@
         // function to load room list
         function loadRooms() {
             $.ajax({
-                url: 'http://127.0.0.1:5000/listallmeter',
+                url: `${url}/listallmeter`,
                 method: 'GET',
                 success: function (response) {
                     var rooms = response.tables;
@@ -83,9 +83,9 @@
                     <p class="modal-title my-3">หลังจากลบแล้วจะไม่สามารถกู้คืนได้</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="ms-2 rounded-pill deletebtn btn btn-danger">ยืนยัน</button>
-                    <button type="button" class="rounded-pill me-2 btn btn-outline-secondary"
+                    <button type="button" class="rounded-pill me-2 btn btn-outline-secondary px-3 shadow-sm"
                         data-bs-dismiss="modal">ยกเลิก</button>
+                    <button type="button" class="ms-2 rounded-pill deletebtn btn btn-danger px-3 shadow-sm">ยืนยัน</button>
                 </div>
             </div>
         </div>
@@ -125,6 +125,8 @@
         </div>
     </div>
 </body>
+
+<!--stylesheet สำหรับแก้ไขบั๊ค-->
 <style>
     @media only screen and (min-width: 768px) {
         .container {
