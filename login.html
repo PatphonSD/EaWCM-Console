@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+  <meta name="origin" content="EaWCMCS/v2">
+  <link rel="stylesheet" href="node_modules/animate.css/animate.min.css">
+  <link rel="stylesheet" href="extension/bootstrap.min.css">
+  <link rel="stylesheet" href="extension/custom.css">
+  <link rel="stylesheet" href="extension/font/bootstrap-icons.css">
+  <script src="extension/jquery.min.js"></script>
+  <script src="extension/bootstrap.bundle.min.js"></script>
+  <script src="extension/dayjs/dayjs.min.js"></script>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login</title>
@@ -101,7 +110,8 @@
       <img class="animate__animated animate__slideInUp mb-4" src="icon\icon.png" alt="" height="65">
       <h1 class="animate__animated animate__slideInUp h3 mb-3 fw-bold">ลงชื่อเข้าใช้งาน</h1>
       <div class="animate__animated animate__slideInUp form-floating">
-        <input type="text" class="rounded-pill form-control shadow-sm" id="email" placeholder="Email" autocomplete="email">
+        <input type="text" class="rounded-pill form-control shadow-sm" id="email" placeholder="Email"
+          autocomplete="email">
         <label for="email">Email</label>
       </div>
       <div id="password-in" class="animate__animated animate__slideInUp form-floating mt-2">
@@ -113,7 +123,8 @@
         <span style="display: none;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         ล็อกอิน
       </button>
-      <p class="animate__animated animate__bounceIn mt-3 text-danger errmsg" style="display: none;">อีเมลหรือรหัสผ่านผิดพลาด</p>
+      <p class="animate__animated animate__bounceIn mt-3 text-danger errmsg" style="display: none;">
+        อีเมลหรือรหัสผ่านผิดพลาด</p>
       <p class="animate__animated animate__shakeX mt-3 text-danger serverrmsg" style="display: none;">ขออภัย
         เกิดข้อผิดพลาดของระบบ</p>
       <p class="mt-5 mb-3 text-muted">&copy; Weregrin Solution Co., Ltd.</p>
@@ -145,7 +156,6 @@
           const loader = document.querySelector('.spinner-border');
           const errmsg = document.querySelector('.errmsg');
           const data = await response.json();
-          console.log(data);
           errmsg.style.display = 'none';
           // เก็บค่า ipAddress ลงใน localStorage
           const ipAddress = data.ipAddress;
@@ -161,7 +171,7 @@
         }
 
         else {
-          const serverrmsg = document.querySelector('.serverrmsg');          
+          const serverrmsg = document.querySelector('.serverrmsg');
           loader.style.display = 'none';
           const errmsg = document.querySelector('.errmsg');
           errmsg.style.display = 'block';
@@ -173,13 +183,13 @@
           const serverrmsg = document.querySelector('.serverrmsg');
           errmsg.style.display = 'block';
           serverrmsg.style.display = 'none';
-        } 
+        }
         if (error.response && error.response.status === 429) {
           // กรณีเกิด error 401
           const ferrmsg = document.querySelector('.429msg');
           ferrmsg.style.display = 'block';
           serverrmsg.style.display = 'none';
-        } 
+        }
         else {
           // กรณีเกิด error อื่นๆ
           const serverrmsg = document.querySelector('.serverrmsg');
@@ -189,8 +199,9 @@
           serverrmsg.style.display = 'block';
         }
 
-      }}
-      );
+      }
+    }
+    );
   </script>
 </body>
 

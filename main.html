@@ -2,11 +2,19 @@
 <html>
 
 <head>
+	<meta name="origin" content="EaWCMCS/v2">
+	<link rel="stylesheet" href="node_modules/animate.css/animate.min.css">
+	<link rel="stylesheet" href="extension/bootstrap.min.css">
+	<link rel="stylesheet" href="extension/custom.css">
+	<link rel="stylesheet" href="extension/font/bootstrap-icons.css">
+	<script src="extension/jquery.min.js"></script>
+	<script src="extension/bootstrap.bundle.min.js"></script>
+	<script src="extension/dayjs/dayjs.min.js"></script>
+    <link rel="shortcut icon" href="/icon/icon.png" type="image/x-icon">
 	<script src="config.js"></script>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>EaWCM Console</title>
-	<link rel="shortcut icon" href="./icon/AppList.targetsize-36.png" type="image/x-icon">
 	<style>
 		/* custom styles */
 		body {
@@ -79,12 +87,12 @@
 							title="ห้องทั้งหมด"><i class="bi fs-2 bi-speedometer"></i></a>
 					</li>
 					<li class="animate__animated animate__fadeInUp nav-item ">
-						<a class="nav-link" href="page/calculator.html" data-bs-toggle="tooltip"
-							data-bs-placement="top" title="คำนวณบิล"><i class="bi fs-2 bi-cash"></i></a>
+						<a class="nav-link" href="page/calculator.html" data-bs-toggle="tooltip" data-bs-placement="top"
+							title="คำนวณบิล"><i class="bi fs-2 bi-cash"></i></a>
 					</li>
 					<li class="animate__animated animate__fadeInUp nav-item">
-						<a class="nav-link" href="/page/setting.html" data-bs-placement="top"
-							title="การตั้งค่า"><i class="bi fs-2 bi-gear-fill"></i></a>
+						<a class="nav-link" href="/page/setting.html" data-bs-placement="top" title="การตั้งค่า"><i
+								class="bi fs-2 bi-gear-fill"></i></a>
 					</li>
 					<li class="animate__animated animate__fadeInUp nav-item">
 						<a class="nav-link" data-bs-target="#exampleModal" data-bs-toggle="modal"
@@ -139,47 +147,47 @@
 		});
 	</script>
 
-<script>
-	const timeoutPromise = new Promise((_, reject) => {
-	  setTimeout(() => {
-		reject(new Error('Request timed out'));
-	  }, 10000); // 10 วินาที
-	});
-  
-	Promise.race([fetch(url), timeoutPromise])
-	  .then(response => {
-		if (response.status === 200) {
-		  // รอ 2 วินาทีแล้วเพิ่ม class animate__animated และ animate__zoomOut ไปยัง id overlay
-		  setTimeout(() => {
-			const overlay = document.getElementById('overlay');
-			overlay.classList.add('animate__animated', 'animate__zoomOut');
-			// รอ 0.1 วินาทีแล้วกำหนด style ของ id overlay เป็น none
+	<script>
+		const timeoutPromise = new Promise((_, reject) => {
 			setTimeout(() => {
-			  overlay.style.display = 'none';
-			  // รอ 0 วินาทีแล้วกำหนด style display ของ class maincc เป็น unset
-			  setTimeout(() => {
-				const maincc = document.querySelector('.maincc');
-				maincc.style.display = 'unset';
-			  }, 0);
-			}, 100);
-		  }, 0);
-		} else {
-		  // กำหนด style ของ class testing เป็น none และกำหนด style ของ class err เป็น unset
-		  const testing = document.querySelector('.testing');
-		  testing.style.display = 'none';
-		  const err = document.querySelector('.err');
-		  err.style.display = 'unset';
-		}
-	  })
-	  .catch(error => {
-		console.error(error);
-		const testing = document.querySelector('.testing');
-		testing.style.display = 'none';
-		const err = document.querySelector('.err');
-		err.style.display = 'unset';
-	  });
-  </script>
-  
+				reject(new Error('Request timed out'));
+			}, 10000); // 10 วินาที
+		});
+
+		Promise.race([fetch(url), timeoutPromise])
+			.then(response => {
+				if (response.status === 200) {
+					// รอ 2 วินาทีแล้วเพิ่ม class animate__animated และ animate__zoomOut ไปยัง id overlay
+					setTimeout(() => {
+						const overlay = document.getElementById('overlay');
+						overlay.classList.add('animate__animated', 'animate__zoomOut');
+						// รอ 0.1 วินาทีแล้วกำหนด style ของ id overlay เป็น none
+						setTimeout(() => {
+							overlay.style.display = 'none';
+							// รอ 0 วินาทีแล้วกำหนด style display ของ class maincc เป็น unset
+							setTimeout(() => {
+								const maincc = document.querySelector('.maincc');
+								maincc.style.display = 'unset';
+							}, 0);
+						}, 100);
+					}, 0);
+				} else {
+					// กำหนด style ของ class testing เป็น none และกำหนด style ของ class err เป็น unset
+					const testing = document.querySelector('.testing');
+					testing.style.display = 'none';
+					const err = document.querySelector('.err');
+					err.style.display = 'unset';
+				}
+			})
+			.catch(error => {
+				console.error(error);
+				const testing = document.querySelector('.testing');
+				testing.style.display = 'none';
+				const err = document.querySelector('.err');
+				err.style.display = 'unset';
+			});
+	</script>
+
 </body>
 <style>
 	iframe {

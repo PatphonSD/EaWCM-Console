@@ -2,7 +2,15 @@
 <html lang="en">
 
 <head>
-    <script src="/config.js"></script>
+    <meta name="origin" content="EaWCMCS/v2">
+    <link rel="stylesheet" href="../extension/bootstrap.min.css">
+    <link rel="stylesheet" href="../extension/custom.css">
+    <link rel="stylesheet" href="../extension/font/bootstrap-icons.css">
+    <script src="../extension/jquery.min.js"></script>
+    <script src="../extension/bootstrap.bundle.min.js"></script>
+    <script src="../extension/dayjs/dayjs.min.js"></script>
+
+    <script src="../config.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +24,7 @@
                 event.preventDefault();
                 var roomName = $('#roomNameInput').val();
                 $.ajax({
-                    url: 'http://${ipAddress}:${port}/generatemeter',
+                    url: `http://${ipAddress}:${port}/generatemeter`,
                     method: 'POST',
                     data: { table_name: roomName },
                     success: function (response) {
@@ -36,7 +44,7 @@
                 $('#deletemodal').modal('show');
                 $('#deletemodal .deletebtn').click(function () {
                     $.ajax({
-                        url: 'http://${ipAddress}:${port}/deletemeter',
+                        url: `http://${ipAddress}:${port}/deletemeter`,
                         method: 'DELETE',
                         data: { table_name: roomName },
                         success: function (response) {
@@ -54,7 +62,7 @@
         // function to load room list
         function loadRooms() {
             $.ajax({
-                url: 'http://127.0.0.1:5000/listallmeter',
+                url: `http://${ipAddress}:${port}/listallmeter`,
                 method: 'GET',
                 success: function (response) {
                     var rooms = response.tables;
@@ -102,7 +110,7 @@
         <div class="p-0 row">
             <div class="col-md-4 mb-4">
                 <form>
-                    <h3 class="mb-2 mt-3 h1">เพิ่มห้อง</h3>
+                    <h3 class="mb-2 mt-3 h1"><i class="bi bi-hospital me-2"></i>เพิ่มห้อง</h3>
                     <div class="form-group">
                         <input type="text" class="shadow-sm w-100 rounded-5 mb-3 form-control form-control-lg"
                             id="roomNameInput" placeholder="ชื่อห้อง" required>

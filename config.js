@@ -1,13 +1,14 @@
-const origin = "EaWCMCS/v2"; // กำหนด origin ที่ต้องการ
+/*const origin = "EaWCMCS/v2"; // กำหนด origin ที่ต้องการ
 const config = {
-  css: ["../extension/bootstrap.min.css", "../extension/custom.css", "../extension/font/bootstrap-icons.css","../extension/animate.css"],
-  js: ["../extension/jquery.min.js", "../extension/bootstrap.bundle.min.js"]
+  css: ["../extension/bootstrap.min.css", "../extension/custom.css", "../extension/font/bootstrap-icons.css"],
+  js: ["../extension/jquery.min.js", "../extension/bootstrap.bundle.min.js","../extension/dayjs/dayjs.min.js"]
 };
 const cssList = config.css.map((url) => `<link rel="stylesheet" href="${url}">`).join("");
 const jsList = config.js.map((url) => `<script src="${url}"></script>`).join("");
 document.write(`<meta name="origin" content="${origin}">`); // เพิ่ม meta tag เพื่อกำหนด origin
 document.write(cssList);
-document.write(jsList);
+document.write(jsList);*/
+
 
 // เช็คว่าอยู่ในหน้า login.html หรือไม่
 if (window.location.pathname !== '/login.html') {
@@ -31,4 +32,4 @@ if (window.location.pathname === '/login.html') {
 const ipAddress = localStorage.getItem('ipAddress');
 const port = localStorage.getItem('port');
 const url = `http://${ipAddress}:${port}`;
-console.log(url);
+

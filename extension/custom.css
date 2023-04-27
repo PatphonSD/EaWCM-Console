@@ -103,12 +103,6 @@
 * {
   overflow: visible;
   /* Hide scrollbars */
-  font-family: Sukhumvit;
-}
-
-@font-face {
-  font-family: Sukhumvit;
-  src: url(/extension/SukhumvitSet-Text.ttf);
 }
 
 button.navbar-toggler {
@@ -200,9 +194,9 @@ body {
   font-size: 16px;
 }
 
-* {
+/** {
   font-family: Sukhumvit;
-}
+}*/
 
 @font-face {
   font-family: Sukhumvit;
@@ -603,7 +597,7 @@ h5 {
   display: block;
   margin: 15px auto;
   position: relative;
-  color: #898989;
+  color: #f97d53;
   left: -100px;
   box-sizing: border-box;
   animation: shadowRolling 2s linear infinite;
@@ -611,40 +605,40 @@ h5 {
 
 @keyframes shadowRolling {
   0% {
-    box-shadow: 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0),
-      0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+    box-shadow: 0px 0 #f97d53, 0px 0 #f97d53,
+      0px 0 #f97d53, 0px 0 #f97d53;
   }
   12% {
-    box-shadow: 100px 0 #404040, 0px 0 rgba(255, 255, 255, 0),
-      0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+    box-shadow: 100px 0 #D43702, 0px 0 #f97d53,
+      0px 0 #f97d53, 0px 0 #f97d53;
   }
   25% {
-    box-shadow: 110px 0 #404040, 100px 0 #404040, 0px 0 rgba(255, 255, 255, 0),
-      0px 0 rgba(255, 255, 255, 0);
+    box-shadow: 110px 0 #D43702, 100px 0 #D43702, 0px 0 #f97d53,
+      0px 0 #f97d53;
   }
   36% {
-    box-shadow: 120px 0 #404040, 110px 0 #404040, 100px 0 #404040,
-      0px 0 rgba(255, 255, 255, 0);
+    box-shadow: 120px 0 #D43702, 110px 0 #D43702, 100px 0 #D43702,
+      0px 0 #f97d53;
   }
   50% {
-    box-shadow: 130px 0 #404040, 120px 0 #404040, 110px 0 #404040,
-      100px 0 #404040;
+    box-shadow: 130px 0 #D43702, 120px 0 #D43702, 110px 0 #D43702,
+      100px 0 #D43702;
   }
   62% {
-    box-shadow: 200px 0 rgba(255, 255, 255, 0), 130px 0 #404040, 120px 0 #404040,
-      110px 0 #404040;
+    box-shadow: 200px 0 #f97d53, 130px 0 #D43702, 120px 0 #D43702,
+      110px 0 #D43702;
   }
   75% {
-    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
-      130px 0 #404040, 120px 0 #404040;
+    box-shadow: 200px 0 #f97d53, 200px 0 #f97d53,
+      130px 0 #D43702, 120px 0 #D43702;
   }
   87% {
-    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
-      200px 0 rgba(255, 255, 255, 0), 130px 0 #404040;
+    box-shadow: 200px 0 #f97d53, 200px 0 #f97d53,
+      200px 0 #f97d53, 130px 0 #D43702;
   }
   100% {
-    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
-      200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0);
+    box-shadow: 200px 0 #f97d53, 200px 0 #f97d53,
+      200px 0 #f97d53, 200px 0 #f97d53;
   }
 }
 
@@ -672,4 +666,17 @@ h5 {
 .modal-body p.fw-bold {
   font-weight: bold;
   font-size: 1.2rem;
+}
+
+.form-switch.form-switch-md .form-check-input {
+  height: 1.5rem;
+  width: calc(2rem + 0.75rem);
+  border-radius: 3rem;
+}
+
+.overlay {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

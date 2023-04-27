@@ -1,4 +1,12 @@
 <head>
+  <meta name="origin" content="EaWCMCS/v2">
+<link rel="stylesheet" href="../extension/bootstrap.min.css">
+<link rel="stylesheet" href="../extension/custom.css">
+<link rel="stylesheet" href="../extension/font/bootstrap-icons.css">
+<script src="../extension/jquery.min.js"></script>
+<script src="../extension/bootstrap.bundle.min.js"></script>
+<script src="../extension/dayjs/dayjs.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="../config.js"></script>
@@ -15,12 +23,13 @@
         <div class="row">
           <div class="col-12">
             <h4 id="table-name" class="mb-4"></h4>
+            <h4 id="due-date" class="mb-4"></h4>
           </div>
         </div>
         <div class="row mb-3">
           <div class="col-6">
             <p class="mb-1">หน่วยน้ำที่ใช้ (ลบ.)</p>
-            <p class="mb-1">หน่วยไฟฟ้าที่ใช้ (กิโลวัตต์-ชั่วโมง)</p>
+            <p class="mb-1">หน่วยไฟฟ้าที่ใช้ (kWh)</p>
             <p class="mb-1">ค่าน้ำ (บาท)</p>
             <p class="mb-1">ค่าไฟ (บาท)</p>
           </div>
@@ -44,8 +53,7 @@
 
       <div class="modal-footer">
 
-        <button type="button" class="shadow-sm btn rounded-pill btn-outline-primary"
-          id="billdownload">
+        <button type="button" class="shadow-sm btn rounded-pill btn-outline-primary" id="billdownload">
           ส่งบิลเข้าเว็บ
         </button>
         <button type="button" class="shadow-sm btn rounded-pill btn-outline-primary" id="billdownload">
@@ -63,7 +71,7 @@
     <div class="p-0 row">
       <div class="col-md-6 form-container">
         <form method="POST" action="/calculator">
-          <h3 class="mb-2 mt-3 h1">ค้นหาบิล</h3>
+          <h3 class="mb-2 mt-3 h1"><i class="bi bi-search me-2"></i>ค้นหาบิล</h3>
           <div class="form-group">
             <label for="start_date" class="h4 mt-2">วันที่:</label>
             <input type="date" class="shadow-sm rounded-pill form-control-lg form-control" id="start_date"
@@ -212,8 +220,11 @@
   }
 
   function genbill(data, tableName) {
+    const start_date_th = dayjs(document.getElementById('start_date').value).format('DD MMM YYYY').locale('th').add(543, 'year');
+    const end_date_th = dayjs(document.getElementById('end_date').value).format('DD MMM YYYY').locale('th').add(543, 'year');
     // ตั้งค่าข้อมูลใน Modal
     $("#table-name").text("ชื่อห้อง: " + tableName);
+    $("#due-date").text(start_date + " ถึง " + end_date);
     $("#total-water").text(data["L_total"].toFixed(2) + " ลิตร");
     $("#total-electricity").text(
       data["electricity_cost"].toFixed(2) + " หน่วย"
@@ -264,5 +275,4 @@
   }
 
   fetchData();
-  setTimeout(() => { GenQR(); toggleInvoiceSystem(); }, 200);
 </script>

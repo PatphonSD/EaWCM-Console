@@ -2,19 +2,24 @@
 <html lang="en">
 
 <head>
+  <meta name="origin" content="EaWCMCS/v2">
+  <link rel="stylesheet" href="../extension/bootstrap.min.css">
+  <link rel="stylesheet" href="../extension/custom.css">
+  <link rel="stylesheet" href="../extension/font/bootstrap-icons.css">
+  <script src="../extension/jquery.min.js"></script>
+  <script src="../extension/bootstrap.bundle.min.js"></script>
+  <script src="../extension/dayjs/dayjs.min.js"></script>
+  <script src="../config.js"></script>
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="/config.js"></script>
-  <script src="../extension/qrcode.min.js"></script>
-  <script src="../extension/promptpay.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">ทดสอบ PromptPay ของคุณ</h1>
@@ -22,17 +27,17 @@
         </div>
         <div class="modal-body">
           <div id="qr-code-container" class="d-none">
-            <img id="qr-code-img" src="">
+            <img id="qr-code-img" class="w-100" src="">
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="container mt-5 ps-4 pe-4 mb-5">
-    <h1 class="text-center mb-5">การตั้งค่า</h1>
+    <h1 class="text-start mb-5"><i class="bi bi-gear-wide-connected me-2"></i>การตั้งค่า</h1>
     <div class="row">
       <div class="col-md-12 bg-white p-3 p-sm-4 rounded-4 shadow">
-        <h2 class="mb-3">กำหนดค่าน้ำ-ค่าไฟต่อหน่วยเริ่มต้น</h2>
+        <h4 class="mb-3">กำหนดค่าน้ำ-ค่าไฟต่อหน่วยเริ่มต้น</h4>
         <form>
           <div class="mb-3">
             <label for="waterRate" class="form-label">ค่าน้ำต่อหน่วย:</label>
@@ -47,11 +52,11 @@
       </div>
 
       <div class="mt-5 col-md-12 bg-white p-3 p-sm-4 rounded-4 shadow">
-        <h2 class="mb-3">ส่งบิลอัตโนมัติ</h2>
+        <h4 class="mb-3">ส่งบิลอัตโนมัติ</h4>
         <p class="text-muted">เมื่อเราเปิดใช้ระบบนี้ ระบบจะสร้างบิลและส่งให้ห้องพักทุกห้องที่มีในระบบ
           โดยเราสามารถเลือกวันที่สร้างบิลการชำระเงินได้</p>
         <div class="mb-3 d-flex align-items-center">
-          <div class="form-check form-switch">
+          <div class="form-check form-switch form-switch-md me-2">
             <input class="form-check-input" type="checkbox" id="invoiceSystemToggle" onchange="toggleInvoiceSystem()">
           </div>
           <select class="form-select" id="dueDate" name="dueDate" disabled>
@@ -60,10 +65,10 @@
         </div>
       </div>
       <div class="col-md-12 mt-5 bg-white p-3 p-sm-4 rounded-4 shadow">
-        <h2 class="mb-3">PromptPay QR Code</h2>
+        <h4 class="mb-3">PromptPay QR Code</h4>
         <div class="mb-3 d-flex flex-row">
-          <input type="text" class="form-control" id="promptpay-id" placeholder="PromptPay ID">
-          <button data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <input type="text" class="form-control rounded-end-0" id="promptpay-id" placeholder="PromptPay ID">
+          <button class="btn btn-outline-primary rounded-start-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <div class="text-center">
               <div id="qr-code-spinner" class="d-none">
                 <div class="spinner-grow spinner-grow-sm" role="status">
@@ -74,9 +79,9 @@
           </button>
         </div>
       </div>
-      <div class="col-md-12 mt-5 text-center d-flex justify-content-end ">
+      <div class="col-md-12 mt-5 text-center d-flex justify-content-center ">
         <button onclick="SaveConfig()" type="submit" id="savebtn"
-          class="btn btn-outline-primary ps-4 pe-4 rounded-pill"><span
+          class="btn w-auto btn-primary ps-4 pe-4 rounded-pill"><span
             class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"
             id="saveloader"></span><i class="bi bi-check2-circle me-2 d-none " id="bi-check2-circle"></i>บันทึก</button>
       </div>
@@ -151,7 +156,6 @@
       } else {
         invoiceSystemToggleElement.checked = false;
       }
-      console.log(invoiceSystemValue);
     } catch (error) {
       console.error(error);
     }
